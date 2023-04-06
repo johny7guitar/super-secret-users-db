@@ -17,7 +17,7 @@ public class UserService{
         this.userRepository = userRepository;
     }
 
-    public User addUser(Integer id, String username, String email){
+    public User addUser(Long id, String username, String email){
         return userRepository.findById(id)
                 .orElse(userRepository.save(new User(id, username, email, URI.create(""))));
     }
