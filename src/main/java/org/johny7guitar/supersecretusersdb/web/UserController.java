@@ -3,6 +3,7 @@ package org.johny7guitar.supersecretusersdb.web;
 import org.johny7guitar.supersecretusersdb.repository.UserRepository;
 import org.johny7guitar.supersecretusersdb.services.UserService;
 import org.johny7guitar.supersecretusersdb.util.UserMapper;
+import org.johny7guitar.supersecretusersdb.web.hal.UserIdOnlyModel;
 import org.johny7guitar.supersecretusersdb.web.hal.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -27,9 +28,11 @@ public class UserController{
     }
 
     @PostMapping
-    public Long addUser(@RequestBody UserDto user){
-        return userService.addUser(user.getId(), user.getUsername(), user.getEmail())
-                .getId();
+    public HttpEntity<UserIdOnlyModel> addUser(@RequestBody UserDto user){
+        return new ResponseEntity<>(
+                new UserIdOnlyModel(userService.addUser(user.getId(), user.getUsername(), user.getEmail()).getId()),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping(path="/{id}")
