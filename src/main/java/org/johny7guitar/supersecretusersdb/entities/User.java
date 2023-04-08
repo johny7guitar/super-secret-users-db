@@ -1,9 +1,8 @@
 package org.johny7guitar.supersecretusersdb.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.johny7guitar.supersecretusersdb.entities.converters.UserStatusToBooleanConverter;
+
+import javax.persistence.*;
 import java.net.URI;
 import java.util.Objects;
 
@@ -23,15 +22,24 @@ public class User{
     @Column
     private URI userpic;
 
+    @Column
+    @Convert(converter =  UserStatusToBooleanConverter.class)
+    private UserStatus userStatus;
+
     public User(){
         //jpa-required empty public constructor
     }
 
-    public User(long id, String username, String email, URI userpic){
+    public User(long id, String username, String email, URI userpic, UserStatus userStatus){
         this.id = id;
         this.username = username;
         this.email = email;
         this.userpic = userpic;
+        this.userStatus = userStatus;
+    }
+
+    public User(long id, String username, String email, URI userpic){
+        this(id, username, email, userpic, UserStatus.ONLINE);
     }
 
     public long getId(){
@@ -66,6 +74,14 @@ public class User{
         this.userpic = userpic;
     }
 
+    public UserStatus getUserStatus(){
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus){
+        this.userStatus = userStatus;
+    }
+
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
@@ -74,12 +90,13 @@ public class User{
         return id == user.id
                 && Objects.equals(username, user.username)
                 && Objects.equals(email, user.email)
-                && Objects.equals(userpic, user.userpic);
+                && Objects.equals(userpic, user.userpic)
+                && Objects.equals(userStatus, user.userStatus);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(id, username, email, userpic);
+        return Objects.hash(id, username, email, userpic, userStatus);
     }
 
 }
