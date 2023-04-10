@@ -21,7 +21,7 @@ public class UserService{
 
     public User addUser(User user){
         return userRepository.findById(user.getId())
-                .orElse(userRepository.save(user));
+                .orElseGet(() -> userRepository.save(user));
     }
 
     public UserStatusChangeDto updateUserStatus(long userId, UserStatus newUserStatus){
