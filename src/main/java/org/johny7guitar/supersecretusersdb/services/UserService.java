@@ -7,7 +7,6 @@ import org.johny7guitar.supersecretusersdb.web.UserStatusChangeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.util.NoSuchElementException;
 
 @Service
@@ -20,9 +19,9 @@ public class UserService{
         this.userRepository = userRepository;
     }
 
-    public User addUser(Long id, String username, String email){
-        return userRepository.findById(id)
-                .orElse(userRepository.save(new User(id, username, email, URI.create(""))));
+    public User addUser(User user){
+        return userRepository.findById(user.getId())
+                .orElse(userRepository.save(user));
     }
 
     public UserStatusChangeDto updateUserStatus(long userId, UserStatus newUserStatus){

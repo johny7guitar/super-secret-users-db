@@ -32,7 +32,7 @@ public class UserController{
     @PostMapping
     public HttpEntity<UserIdOnlyModel> addUser(@RequestBody UserDto user){
         return new ResponseEntity<>(
-                new UserIdOnlyModel(userService.addUser(user.getId(), user.getUsername(), user.getEmail()).getId()),
+                new UserIdOnlyModel(userService.addUser(UserMapper.INSTANCE.userDtoToUser(user)).getId()),
                 HttpStatus.OK
         );
     }
