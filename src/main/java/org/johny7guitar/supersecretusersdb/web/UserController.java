@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController{
@@ -30,7 +32,7 @@ public class UserController{
     }
 
     @PostMapping
-    public HttpEntity<UserIdOnlyModel> addUser(@RequestBody UserDto user){
+    public HttpEntity<UserIdOnlyModel> addUser(@Valid @RequestBody UserDto user){
         return new ResponseEntity<>(
                 new UserIdOnlyModel(userService.addUser(UserMapper.INSTANCE.userDtoToUser(user)).getId()),
                 HttpStatus.OK

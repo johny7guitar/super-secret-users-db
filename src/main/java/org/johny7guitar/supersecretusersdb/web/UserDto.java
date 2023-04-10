@@ -1,17 +1,24 @@
 package org.johny7guitar.supersecretusersdb.web;
 
+import org.hibernate.validator.constraints.URL;
 import org.johny7guitar.supersecretusersdb.entities.UserStatus;
 
-import java.net.URI;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 public class UserDto{
 
     private long id;
+
+    @NotNull(message = "Username is required")
     private String username;
+
+    @NotNull(message = "Email is required")
+    @Email
     private String email;
 
+    @URL
     private String userpic;
-
     private UserStatus userStatus;
 
     public UserDto(){
