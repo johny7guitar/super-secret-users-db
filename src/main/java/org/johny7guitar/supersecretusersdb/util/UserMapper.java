@@ -6,10 +6,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface UserMapper{
+public interface UserMapper extends UriToStringConverter{
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     UserDto userToUserDto(User user);
+    User userDtoToUser(UserDto userDto);
 
 }

@@ -9,11 +9,16 @@ public class UserDto{
     private long id;
     private String username;
     private String email;
-    private URI userpic;
+
+    private String userpic;
 
     private UserStatus userStatus;
 
-    public UserDto(long id, String username, String email, URI userpic, UserStatus userStatus){
+    public UserDto(){
+        this.userStatus = UserStatus.ONLINE;
+    }
+
+    public UserDto(long id, String username, String email, String userpic, UserStatus userStatus){
         this.id = id;
         this.username = username;
         this.email = email;
@@ -45,11 +50,11 @@ public class UserDto{
         this.email = email;
     }
 
-    public URI getUserpic(){
+    public String getUserpic(){
         return userpic;
     }
 
-    public void setUserpic(URI userpic){
+    public void setUserpic(String userpic){
         this.userpic = userpic;
     }
 
