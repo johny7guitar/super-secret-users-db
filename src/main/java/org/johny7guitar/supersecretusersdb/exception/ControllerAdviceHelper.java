@@ -1,5 +1,6 @@
 package org.johny7guitar.supersecretusersdb.exception;
 
+import org.johny7guitar.supersecretusersdb.web.hal.ErrorModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,19 @@ import java.util.stream.Collectors;
 public class ControllerAdviceHelper extends ResponseEntityExceptionHandler{
 
     private static final String MESSAGE_PROPERTY = "message";
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request){
+
+        return handleExceptionInternal(
+                ex,
+                new ErrorModel(ex.getMessage(), request),
+                new HttpHeaders(),
+                HttpStatus.NOT_FOUND,
+                request
+        );
+
+    }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex, WebRequest request){
