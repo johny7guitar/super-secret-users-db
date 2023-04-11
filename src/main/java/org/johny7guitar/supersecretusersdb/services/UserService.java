@@ -2,6 +2,7 @@ package org.johny7guitar.supersecretusersdb.services;
 
 import org.johny7guitar.supersecretusersdb.entities.User;
 import org.johny7guitar.supersecretusersdb.entities.UserStatus;
+import org.johny7guitar.supersecretusersdb.exception.EntityNotFoundException;
 import org.johny7guitar.supersecretusersdb.repository.UserRepository;
 import org.johny7guitar.supersecretusersdb.web.UserStatusChangeDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class UserService{
     public UserStatusChangeDto updateUserStatus(long userId, UserStatus newUserStatus){
 
         User targetUser = userRepository.findById(userId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(User.class, userId));
 
         UserStatus oldUserStatus = targetUser.getUserStatus();
         targetUser.setUserStatus(newUserStatus);
