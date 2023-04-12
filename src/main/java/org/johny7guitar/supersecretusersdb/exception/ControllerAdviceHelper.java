@@ -1,6 +1,8 @@
 package org.johny7guitar.supersecretusersdb.exception;
 
 import org.johny7guitar.supersecretusersdb.web.hal.ErrorModel;
+import org.johny7guitar.supersecretusersdb.web.hal.FieldValidationErrorCollectionModel;
+import org.johny7guitar.supersecretusersdb.web.hal.FieldValidationErrorModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,11 +52,13 @@ public class ControllerAdviceHelper extends ResponseEntityExceptionHandler{
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request){
         return handleExceptionInternal(
                 ex,
-                ex.getBindingResult().getAllErrors().stream()
-                        .collect(Collectors.toMap(
-                                er -> (((FieldError)er).getField()),
-                                er -> Optional.ofNullable(er.getDefaultMessage()).orElse(""))
-                        ),
+                new FieldValidationErrorCollectionModel(ex.getBindingResult().getAllErrors().stream()
+                        .map(error -> new FieldValidationErrorModel(
+                                ((FieldError) error).getField(),
+                                Optional.ofNullable(error.getDefaultMessage()).orElse(""), request)
+                        ).collect(Collectors.toList()),
+                        request
+                ),
                 headers,
                 HttpStatus.BAD_REQUEST,
                 request
