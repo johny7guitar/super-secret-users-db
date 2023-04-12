@@ -1,6 +1,6 @@
 package org.johny7guitar.supersecretusersdb.exception;
 
-import org.johny7guitar.supersecretusersdb.entities.User;
+import org.johny7guitar.supersecretusersdb.TestEntity;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.Entity;
@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EntityNotFoundExceptionTest{
-
-    @Entity private static class TestEntity{};
 
     @Test
     void testExceptionMessages(){
