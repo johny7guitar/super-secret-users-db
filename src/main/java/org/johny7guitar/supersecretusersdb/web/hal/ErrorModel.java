@@ -2,6 +2,7 @@ package org.johny7guitar.supersecretusersdb.web.hal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import org.johny7guitar.supersecretusersdb.util.WebRequestUrlExtractor;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -14,14 +15,8 @@ public class ErrorModel extends RepresentationModel<ErrorModel>{
 
     public ErrorModel(@JsonProperty(value = "message") String errorMessage, WebRequest request){
         super();
-        super.add(Link.of(getRequestUrl(request)).withSelfRel());
+        super.add(Link.of(WebRequestUrlExtractor.getRequestUrl(request)).withSelfRel());
         this.errorMessage = errorMessage;
-    }
-
-    private String getRequestUrl(WebRequest request){
-        return request instanceof ServletWebRequest ?
-                ((ServletWebRequest)request).getRequest().getRequestURL().toString() :
-                request.getDescription(false);
     }
 
     public String getErrorMessage(){
