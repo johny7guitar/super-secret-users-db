@@ -4,11 +4,12 @@ import org.johny7guitar.supersecretusersdb.entities.User;
 import org.johny7guitar.supersecretusersdb.entities.UserStatus;
 import org.johny7guitar.supersecretusersdb.exception.EntityNotFoundException;
 import org.johny7guitar.supersecretusersdb.repository.UserRepository;
+import org.johny7guitar.supersecretusersdb.util.UserMapper;
+import org.johny7guitar.supersecretusersdb.web.UserDto;
 import org.johny7guitar.supersecretusersdb.web.UserStatusChangeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
 
 @Service
 public class UserService{
@@ -37,6 +38,12 @@ public class UserService{
 
         return new UserStatusChangeDto(saved.getId(), oldUserStatus, saved.getUserStatus());
 
+    }
+
+    public UserDto getUser(long id){
+        return userRepository.findById(id)
+                .map(UserMapper.INSTANCE::userToUserDto)
+                .orElseThrow(() -> new EntityNotFoundException(User.class, id));
     }
 
 }

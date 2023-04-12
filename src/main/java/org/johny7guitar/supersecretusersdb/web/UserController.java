@@ -1,8 +1,6 @@
 package org.johny7guitar.supersecretusersdb.web;
 
-import org.johny7guitar.supersecretusersdb.entities.User;
 import org.johny7guitar.supersecretusersdb.entities.UserStatus;
-import org.johny7guitar.supersecretusersdb.exception.EntityNotFoundException;
 import org.johny7guitar.supersecretusersdb.repository.UserRepository;
 import org.johny7guitar.supersecretusersdb.services.UserService;
 import org.johny7guitar.supersecretusersdb.util.UserMapper;
@@ -42,14 +40,7 @@ public class UserController{
 
     @GetMapping(path="/{id}")
     public HttpEntity<UserModel> getUser(@PathVariable("id") Long id){
-        return new ResponseEntity<>(
-                new UserModel(
-                        UserMapper.INSTANCE.userToUserDto(
-                                userRepository.findById(id)
-                                        .orElseThrow(() -> new EntityNotFoundException(User.class, id))
-                        ),
-                id),
-                HttpStatus.OK);
+        return new ResponseEntity<>(new UserModel(userService.getUser(id), id), HttpStatus.OK);
     }
 
     @PatchMapping(path="/{id}/update_status/{new_status}")

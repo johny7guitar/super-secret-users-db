@@ -4,14 +4,15 @@ import org.johny7guitar.supersecretusersdb.entities.User;
 import org.johny7guitar.supersecretusersdb.entities.UserStatus;
 import org.johny7guitar.supersecretusersdb.exception.EntityNotFoundException;
 import org.johny7guitar.supersecretusersdb.repository.UserRepository;
+import org.johny7guitar.supersecretusersdb.util.UserMapper;
 import org.johny7guitar.supersecretusersdb.web.UserStatusChangeDto;
-import org.johny7guitar.supersecretusersdb.web.hal.UserStatusChangeModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.net.URI;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -29,7 +30,7 @@ class UserServiceTest{
     @InjectMocks
     private UserService userService;
 
-    private static final User testUser = new User(12, "ramanavich", "ramanavich@dmail.com", null);
+    private static final User testUser = new User(12, "ramanavich", "ramanavich@dmail.com", URI.create(""));
 
     @Test
     void addUserTest(){
@@ -84,6 +85,17 @@ class UserServiceTest{
         assertEquals(testUser.getId(), updateResult.get().getUserId());
         assertEquals(UserStatus.OFFLINE, updateResult.get().getNewUserStatus());
         assertEquals(UserStatus.ONLINE, updateResult.get().getOldUserStatus());
+
+    }
+
+    @Test
+    void getUserTest(){
+
+        when(userRepository.findById(testUser.getId())).thenReturn(Optional.of(testUser));
+        when(userRepository.findById(not(eq(testUser.getId())))).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> userService.getUser(13L));
+        assertEquals(testUser, UserMapper.INSTANCE.userDtoToUser(userService.getUser(testUser.getId())));
 
     }
 
