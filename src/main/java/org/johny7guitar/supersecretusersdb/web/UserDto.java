@@ -3,14 +3,15 @@ package org.johny7guitar.supersecretusersdb.web;
 import org.hibernate.validator.constraints.URL;
 import org.johny7guitar.supersecretusersdb.entities.UserStatus;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 public class UserDto{
 
     private long id;
 
     @NotNull(message = "Username is required")
+    @Pattern(regexp = "[a-zA-Z0-9]+", message = "Username must contain only latin letters or numbers")
+    @Size(min = 4, max = 24)
     private String username;
 
     @NotNull(message = "Email is required")
