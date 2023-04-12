@@ -3,7 +3,6 @@ package org.johny7guitar.supersecretusersdb.util;
 import org.johny7guitar.supersecretusersdb.entities.User;
 import org.johny7guitar.supersecretusersdb.web.UserDto;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 
 import java.net.URI;
 
@@ -29,7 +28,7 @@ class UserMapperTest{
         assertEquals(user.getId(), userDto.getId());
         assertEquals(user.getUsername(), userDto.getUsername());
         assertEquals(user.getEmail(), userDto.getEmail());
-        assertEquals(user.getUserpic(), userDto.getUserpic());
+        assertEquals(user.getUserpic().toString(), userDto.getUserpic());
 
     }
 
