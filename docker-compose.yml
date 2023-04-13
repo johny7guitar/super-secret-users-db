@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+    db:
+        image: mysql
+        environment:
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=secret_users
+        restart: always
+        ports:
+            - 3306:3306
